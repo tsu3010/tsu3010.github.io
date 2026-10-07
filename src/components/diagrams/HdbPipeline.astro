@@ -1,0 +1,114 @@
+---
+// Architecture of the HDB resale pipeline. Colours come from the site's CSS variables,
+// so the diagram follows light and dark mode.
+const steps = [
+  { title: 'data.gov.sg API', sub: 'HDB resale transactions, 228,542 rows' },
+  { title: 'Python ingestion', sub: 'Raw CSV to Cloud Storage, then BigQuery' },
+  { title: 'OneMap API', sub: '577 street names geocoded' },
+  { title: 'BigQuery raw layer', sub: 'hdb_resale and hdb_locations, all strings' },
+  { title: 'dbt', sub: 'Staging, then marts, with 24 tests' },
+  { title: 'BigQuery marts', sub: 'By month, affordability, quarterly trends' },
+  { title: 'Looker Studio', sub: 'Dashboard with town, flat type and date filters' },
+];
+
+const top = 16;
+const nodeW = 380;
+const nodeH = 56;
+const gap = 28;
+const x = 20;
+const yOf = (i: number) => top + i * (nodeH + gap);
+const lastBottom = yOf(steps.length - 1) + nodeH;
+const bracketTop = yOf(1);
+const bracketBottom = yOf(4) + nodeH;
+const footerY = lastBottom + 20;
+---
+
+<svg
+  class="hdb-diagram"
+  viewBox={`0 0 640 ${footerY + 40}`}
+  role="img"
+  aria-labelledby="hdb-diagram-title hdb-diagram-desc"
+>
+  <title id="hdb-diagram-title">HDB resale pipeline architecture</title>
+  <desc id="hdb-diagram-desc">
+    Data flows from the data.gov.sg API through Python ingestion into Cloud Storage and BigQuery, is enriched with
+    OneMap geocoding, transformed by dbt into marts, and shown in Looker Studio. Kestra orchestrates the middle steps and
+    Terraform provisions the infrastructure.
+  </desc>
+  <defs>
+    <marker id="hdb-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" class="arrow-head"></path>
+    </marker>
+  </defs>
+
+  {
+    steps.map((step, i) => (
+      <g>
+        <rect class="node" x={x} y={yOf(i)} width={nodeW} height={nodeH} rx="8"></rect>
+        <text class="node-title" x={x + 16} y={yOf(i) + 24}>{step.title}</text>
+        <text class="node-sub" x={x + 16} y={yOf(i) + 44}>{step.sub}</text>
+        {i < steps.length - 1 && (
+          <line class="arrow" x1={x + nodeW / 2} y1={yOf(i) + nodeH} x2={x + nodeW / 2} y2={yOf(i + 1) - 2} marker-end="url(#hdb-arrow)"></line>
+        )}
+      </g>
+    ))
+  }
+
+  <path class="bracket" d={`M ${x + nodeW + 14} ${bracketTop} H ${x + nodeW + 30} V ${bracketBottom} H ${x + nodeW + 14}`}></path>
+  <text class="note-title" x={x + nodeW + 42} y={(bracketTop + bracketBottom) / 2 - 18}>Kestra</text>
+  <text class="note" x={x + nodeW + 42} y={(bracketTop + bracketBottom) / 2 + 2}>fetch, geocode,</text>
+  <text class="note" x={x + nodeW + 42} y={(bracketTop + bracketBottom) / 2 + 22}>dbt run, dbt test</text>
+
+  <rect class="footer" x={x} y={footerY} width="600" height="36" rx="8"></rect>
+  <text class="note" x="320" y={footerY + 23} text-anchor="middle">Terraform provisions the GCP infrastructure</text>
+</svg>
+
+<style>
+  .hdb-diagram {
+    display: block;
+    max-width: 640px;
+    margin: 1.5rem 0;
+    font-family: var(--font);
+  }
+  .node {
+    fill: var(--surface);
+    stroke: var(--border);
+    stroke-width: 1.5;
+  }
+  .footer {
+    fill: none;
+    stroke: var(--border);
+    stroke-width: 1.5;
+    stroke-dasharray: 6 4;
+  }
+  .node-title {
+    fill: var(--text);
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .node-sub {
+    fill: var(--muted);
+    font-size: 13px;
+  }
+  .arrow {
+    stroke: var(--muted);
+    stroke-width: 1.5;
+  }
+  .arrow-head {
+    fill: var(--muted);
+  }
+  .bracket {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 2;
+  }
+  .note-title {
+    fill: var(--accent);
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .note {
+    fill: var(--text);
+    font-size: 14px;
+  }
+</style>
