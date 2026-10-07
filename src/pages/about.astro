@@ -1,24 +1,36 @@
 ---
 import Base from '../layouts/Base.astro';
+import { SITE } from '../site';
 ---
 
-<Base title="About" description="Background and what I work on." image="/og/about.png">
+<Base title="About" description="Background, skills and what I work on." image="/og/about.png">
   <h1>About</h1>
   <p>
-    I'm Sudharsan, a data scientist. I hold a Master's in Business Analytics from the National University of Singapore and
-    started my career solving analytics problems for large e-commerce, retail and financial services clients.
+    I'm Sudharsan, a data and analytics professional with over ten years of experience across retail, e-commerce,
+    technology and financial services. I turn customer and product data into decisions, through experimentation and
+    machine learning, and through the pipelines and dashboards that put the answers in front of the people who act on
+    them. My most recent project is a
+    <a href="/projects/hdb-resale-pipeline/">public pipeline on Singapore resale housing data</a>.
   </p>
   <p>
-    I've worked across the full problem lifecycle: scoping, data gathering, exploration, modelling, and deployment. My
-    current interests are data engineering, analytics engineering, natural language processing, and time series
-    forecasting.
+    I currently lead customer and marketing analytics for an e-commerce business at a large Singapore retailer, working
+    alongside product, marketing and engineering teams. Before that I built machine learning products as a senior data
+    scientist at a global consumer-products company. I began my career at an analytics firm, solving problems for clients
+    in retail, e-commerce and financial services. I hold a Master's in Business Analytics from the National University of
+    Singapore, where my team won the 2017 NUS Business Analytics Innovation Challenge.
   </p>
   <p>
-    I was part of the team that won the NUS Business Analytics Innovation Challenge in 2017. Outside of work I play
-    tennis, watch football, and backpack to far-flung places.
+    My day-to-day toolkit is Python, SQL and R, with Airflow, dbt, BigQuery, Docker and Terraform for data pipelines and
+    Looker Studio for dashboards. The topics I keep coming back to are A/B testing and experimentation, customer
+    analytics, machine learning, data and analytics engineering, forecasting, and natural language processing.
   </p>
   <p>
-    The work shown here uses public data. See the <a href="/projects/">projects</a> or get in touch through
-    <a href="https://github.com/tsu3010">GitHub</a>.
+    Outside work I play tennis, watch football and backpack to far-flung places. I've also volunteered my analytics
+    skills with an NGO that uses data for women's safety.
+  </p>
+  <p>
+    I like learning from people. If you want to talk data, tennis or football, find me on
+    <a href={SITE.github}>GitHub</a>{SITE.linkedin && <> or <a href={SITE.linkedin}>LinkedIn</a></>}. The work shown on
+    this site uses public data only.
   </p>
 </Base>
