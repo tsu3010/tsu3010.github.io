@@ -4,14 +4,17 @@ import TagList from './TagList.astro';
 
 interface Props {
   project: Project;
+  /** Heading level for the card title: 2 under a page title, 3 under a section heading. */
+  level?: 2 | 3;
 }
 
-const { project } = Astro.props;
+const { project, level = 3 } = Astro.props;
 const { title, summary, date, status, tags, stack } = project.data;
+const Heading = `h${level}` as const;
 ---
 
 <li class="card">
-  <h3><a href={`/projects/${project.id}/`}>{title}</a></h3>
+  <Heading><a href={`/projects/${project.id}/`}>{title}</a></Heading>
   <p class="meta">
     {formatYearMonth(date)} · {status} · {stack.join(', ')}
   </p>
