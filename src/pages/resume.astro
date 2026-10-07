@@ -1,0 +1,17 @@
+---
+import { existsSync } from 'node:fs';
+import Base from '../layouts/Base.astro';
+
+const hasPdf = existsSync('public/resume.pdf');
+---
+
+<Base title="Resume" description="Download my resume as a PDF." image="/og/resume.png">
+  <h1>Resume</h1>
+  {
+    hasPdf ? (
+      <p><a href="/resume.pdf">Download my resume (PDF)</a></p>
+    ) : (
+      <p class="empty">The resume PDF will be available here soon.</p>
+    )
+  }
+</Base>

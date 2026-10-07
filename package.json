@@ -1,32 +1,31 @@
 {
-  "name": "minimal-mistakes",
-  "version": "4.11.2",
-  "description": "Minimal Mistakes Jekyll theme npm build scripts",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/mmistakes/minimal-mistakes.git"
-  },
-  "keywords": ["jekyll", "theme", "minimal"],
-  "author": "Michael Rose",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/mmistakes/minimal-mistakes/issues"
-  },
-  "homepage": "https://mmistakes.github.io/minimal-mistakes/",
+  "name": "tsu3010-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
   "engines": {
-    "node": ">= 0.10.0"
-  },
-  "devDependencies": {
-    "npm-run-all": "^1.7.0",
-    "onchange": "^2.2.0",
-    "uglify-js": "^2.6.1"
+    "node": ">=24"
   },
   "scripts": {
-    "uglify":
-      "uglifyjs assets/js/vendor/jquery/jquery-3.3.1.min.js assets/js/plugins/jquery.fitvids.js assets/js/plugins/jquery.greedy-navigation.js assets/js/plugins/jquery.magnific-popup.js assets/js/plugins/jquery.smooth-scroll.min.js assets/js/_main.js -c -m -o assets/js/main.min.js",
-    "add-banner": "node banner.js",
-    "watch:js":
-      "onchange \"assets/js/**/*.js\" -e \"assets/js/main.min.js\" -- npm run build:js",
-    "build:js": "npm run uglify && npm run add-banner"
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "check:content": "node scripts/check-content.mjs",
+    "check:redirects": "node scripts/test-redirects.mjs && node scripts/check-redirects.mjs",
+    "verify": "astro check && node scripts/check-content.mjs && node scripts/test-redirects.mjs && astro build && node scripts/check-redirects.mjs",
+    "stub": "node scripts/build-redirect-stub.mjs"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^8.0.3",
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.4",
+    "@resvg/resvg-js": "^2.6.2",
+    "astro": "^7.3.6",
+    "satori": "^0.35.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^6.0.3"
   }
 }

@@ -1,0 +1,43 @@
+---
+import Base from './Base.astro';
+import StatusBadge from '../components/StatusBadge.astro';
+import TagList from '../components/TagList.astro';
+import { formatYearMonth, type Project } from '../lib/content';
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const { title, summary, date, role, stack, tags, status, links } = project.data;
+const migrated = status === 'original' && Boolean(links.original);
+---
+
+<Base title={title} description={summary} image={`/og/projects/${project.id}.png`}>
+  <article>
+    <h1>{title}</h1>
+    <p class="lede">{summary}</p>
+    <p class="meta">{formatYearMonth(date)} · {role} · {stack.join(', ')}</p>
+    <StatusBadge status={status} />
+    {
+      migrated && (
+        <p class="notice">
+          Originally published in {formatYearMonth(date)} on my earlier site. Migrated here with the analysis unchanged.
+        </p>
+      )
+    }
+    <TagList tags={tags} />
+
+    <slot />
+
+    <section class="links-block" aria-labelledby="links-heading">
+      <h2 id="links-heading">Links</h2>
+      <ul>
+        {links.code && <li><a href={links.code}>Code</a></li>}
+        {links.demo && <li><a href={links.demo}>Live demo</a></li>}
+        {links.original && <li><a href={links.original}>Original post</a></li>}
+        {!links.code && !links.demo && !links.original && <li class="empty">No public links for this project.</li>}
+      </ul>
+    </section>
+  </article>
+</Base>

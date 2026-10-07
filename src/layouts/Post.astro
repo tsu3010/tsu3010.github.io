@@ -1,0 +1,21 @@
+---
+import Base from './Base.astro';
+import TagList from '../components/TagList.astro';
+import { formatDate, type Post } from '../lib/content';
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+const { title, description, date, tags } = post.data;
+---
+
+<Base title={title} description={description} image={`/og/writing/${post.id}.png`} type="article">
+  <article>
+    <h1>{title}</h1>
+    <p class="meta"><time datetime={date.toISOString()}>{formatDate(date)}</time></p>
+    {tags.length > 0 && <TagList tags={tags} linked={false} />}
+    <slot />
+  </article>
+</Base>

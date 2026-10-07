@@ -1,0 +1,28 @@
+---
+interface Props {
+  status: 'original' | 'reproduction' | 'refresh';
+}
+
+const COPY = {
+  original: {
+    label: 'Original',
+    text: 'Original work, presented as first written.',
+  },
+  reproduction: {
+    label: 'Reproduction',
+    text: 'Re-run later from the published code snippets. Numbers may differ from the original write-up.',
+  },
+  refresh: {
+    label: 'Refresh',
+    text: 'The original analysis redone with current tools.',
+  },
+} as const;
+
+const { status } = Astro.props;
+const { label, text } = COPY[status];
+---
+
+<p class="meta">
+  <span class="badge">{label}</span>
+  <span>{text}</span>
+</p>

@@ -1,0 +1,29 @@
+<button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch colour theme">
+  <span id="theme-toggle-label">Theme</span>
+</button>
+
+<script>
+  const root = document.documentElement;
+  const label = document.getElementById('theme-toggle-label')!;
+  const dark = () =>
+    root.dataset.theme
+      ? root.dataset.theme === 'dark'
+      : window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+  const render = () => {
+    label.textContent = dark() ? 'Light mode' : 'Dark mode';
+  };
+
+  document.getElementById('theme-toggle')!.addEventListener('click', () => {
+    const next = dark() ? 'light' : 'dark';
+    root.dataset.theme = next;
+    try {
+      localStorage.setItem('theme', next);
+    } catch {
+      /* storage unavailable: the choice just won't persist */
+    }
+    render();
+  });
+
+  render();
+</script>
