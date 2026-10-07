@@ -46,6 +46,28 @@ Effort: S is a weekend, M is 2 to 3 weeks of evenings, L is a month or more.
 | R2 | Yelp sentiment: TF-IDF baseline against embeddings and a small fine-tuned transformer, with class-level metrics | The 2018 confusion matrix already gives about 83% precision and 68% recall for 1-star |
 | R3 | Box office: ordinal modelling and gradient boosting, with baselines that account for edge buckets (exact about 10%, within-one about 28%) | Resolve the 59.24% vs 59.43% inconsistency first |
 
+## Problem spaces and datasets beyond HDB
+
+Any AI idea below can be pointed at one of these instead of HDB. Pick a domain you can explain to a stranger in one sentence, because that is what an AI PM interview tests. All of these need a licence and availability check before you commit. Where a licence is non-commercial or share-alike, say so on the case study.
+
+| Domain | Public data to look at | Ideas that fit |
+| --- | --- | --- |
+| Sport (your own interest: football, tennis) | StatsBomb open football event data; the community tennis match datasets | **Grounded match reports:** an LLM writes a recap, and you score every claim against the event data. A hallucination-rate eval you can show |
+| Travel (backpacking) | OpenStreetMap, Wikivoyage | **Itinerary agent** with tool use and constraint checks (opening hours, distances, budget), judged on whether the plan is feasible |
+| Company filings and finance | SEC EDGAR filings and financial statement data sets | Structured extraction (A6), RAG over filings (A1), text-to-SQL over the statement tables (A3) |
+| Science and health literature | PubMed Central open-access papers | RAG with citation checking; claim extraction; evaluation of faithfulness |
+| Law and policy | Open court opinions (for example CourtListener); government gazettes, parliamentary records, data.gov.sg | RAG with source-grounded answers; policy-change summaries; a risk register for a legal-adjacent feature (M6) |
+| Developer tools | Public GitHub issues and pull requests; Stack Exchange data dump | Issue triage and duplicate detection; support-style QA; model-choice memo (M4) |
+| Customer support | Public customer-support conversation datasets | Intent classification, a support copilot PRD (M1), A/B plan for escalation and resolution metrics (M2) |
+| E-commerce and recommendations | Olist, UCI Online Retail II, MovieLens, Amazon review datasets, Yelp open dataset | Recommender with LLM reranking and offline-to-online evaluation; uplift (P3); customer 360 (P4) |
+| Transport and mobility | NYC taxi trips, bike-share feeds, Singapore LTA DataMall (free key) | Demand forecasting and a forecasting-model benchmark (A9); an operations agent with tools |
+| Weather, climate, energy | NOAA, Open-Meteo, public energy statistics | Forecasting with pretrained models against classical ones; anomaly detection |
+| Documents and forms | Public receipt and form datasets (check licence) | Document AI: extraction from scans with confidence and a review queue |
+| Encyclopaedic knowledge | Wikipedia and Wikidata dumps, page-view counts | RAG baselines; entity linking; forecasting page views |
+| Public safety | City open-data incident reports (handle with care) | Only with an ethics section; connects to the NGO work. A fairness and harm assessment is part of the deliverable |
+
+Domains close to your employer's business (grocery and retail catalogues, consumer food data) are fine if the data is public, but keep the build independent and say nothing about internal work.
+
 ## AI engineering track
 
 What these show: you can ship an LLM system and prove it works, with evaluation, cost and latency numbers, reliability and security.
@@ -54,8 +76,8 @@ What these show: you can ship an LLM system and prove it works, with evaluation,
 | --- | --- | --- | --- | --- |
 | A1 | **RAG over public documents, with proper evaluation:** compare chunking, hybrid search and reranking using retrieval metrics (recall@k, MRR) and answer faithfulness | You can measure retrieval quality instead of eyeballing demos | Open documentation or public guidance (check licence); Python, an embedding model, a vector store | M |
 | A2 | **Evals as CI:** a golden question set, an LLM judge calibrated against your own labels, and a GitHub Action that fails on quality regressions | Engineering discipline around non-deterministic systems | Reuses A1 or A3; Python, GitHub Actions | M |
-| A3 | **Text-to-SQL over the HDB marts (upgrades P5):** schema linking, read-only and cost-capped guardrails, and execution accuracy on about 50 labelled questions with error analysis | Applied GenAI on data you already own, judged by results | HDB marts; LLM API or open model, BigQuery | M |
-| A4 | **HDB MCP server:** expose the marts as safe, read-only tools that any MCP client can call | Protocol-level agent tooling; small and reusable | HDB marts; Python | S |
+| A3 | **Text-to-SQL over a warehouse (upgrades P5):** schema linking, read-only and cost-capped guardrails, and execution accuracy on about 50 labelled questions with error analysis | Applied GenAI judged by results | The HDB marts, or any tabular dataset from the domain menu (SEC statements are a good second); LLM API or open model, BigQuery or DuckDB | M |
+| A4 | **MCP server for a dataset:** expose it as safe, read-only tools that any MCP client can call | Protocol-level agent tooling; small and reusable | HDB marts or another dataset; Python | S |
 | A5 | **Bounded data-analyst agent:** tool use over A4 (query and chart), step limits, tracing, and a head-to-head against a single prompt | Agent design with failure analysis, not just a demo | A4; Python | M |
 | A6 | **Structured extraction pipeline:** pull fields from messy public documents into BigQuery with schema validation, confidence scores and a human-review queue; report precision and recall on a labelled sample | Production-style LLM data work | Public documents (check licence); Python, BigQuery | M |
 | A7 | **Prompt versus fine-tune versus classic model** on Yelp sentiment (extends R2): accuracy, cost and latency in one table | Model selection with evidence | Yelp data; Python | M |
@@ -68,7 +90,7 @@ What these show: you frame problems, define "good", make trade-offs with numbers
 
 | ID | Idea | Artifact | Effort |
 | --- | --- | --- | --- |
-| M1 | **PRD and eval plan for "Ask the market"** (an HDB question-answering assistant): users, jobs to be done, success and guardrail metrics, quality bar, launch gates, risk register. Then test it against the A3 prototype | PRD, eval plan, and a retrospective on what the prototype taught you | M |
+| M1 | **PRD and eval plan for an AI assistant in a domain you choose** (for example "Ask the market" over HDB, or grounded match reports): users, jobs to be done, success and guardrail metrics, quality bar, launch gates, risk register. Then test it against a prototype | PRD, eval plan, and a retrospective on what the prototype taught you | M |
 | M2 | **Experiment design for an AI feature:** holdout and A/B plan, metric hierarchy (task success, groundedness, escalation, latency, cost), power analysis, and why standard playbooks break for generative features | Notebook plus write-up; this uses your experimentation strength (P2) | M |
 | M3 | **Quality framework for generative output:** rubric design, labelling guidelines, inter-annotator agreement, and calibrating an LLM judge | Rubric plus a small labelled set | M |
 | M4 | **Model-choice decision memo:** cost, quality and latency across models for one defined task, using real numbers from A7 | A one-page memo and a table | S |
@@ -78,7 +100,7 @@ What these show: you frame problems, define "good", make trade-offs with numbers
 
 ## Suggested AI bundle
 
-One storyline that covers both roles and reuses the flagship: "Ask the market".
+One storyline that covers both roles. The default below uses "Ask the market" over HDB because the data and marts already exist, but the same six steps work in any domain from the menu above. Choose a second domain if you want the portfolio to look less single-topic: sport (grounded match reports) is the most distinctive and the most personal.
 
 1. M1: write the PRD and eval plan first.
 2. A4 then A3: build the MCP server and the text-to-SQL prototype.
