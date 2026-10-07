@@ -27,9 +27,10 @@ const projects = defineCollection({
           .object({
             code: z.url().optional(),
             demo: z.url().optional(),
-            original: z.url().optional(),
           })
           .default({}),
+        // True for write-ups carried over from the earlier site with the analysis unchanged.
+        migrated: z.boolean().default(false),
         cover: image().optional(),
         coverAlt: z.string().optional(),
         draft: z.boolean().default(false),

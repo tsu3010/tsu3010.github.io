@@ -9,8 +9,7 @@ interface Props {
 }
 
 const { project } = Astro.props;
-const { title, summary, date, role, stack, tags, status, links } = project.data;
-const migrated = status === 'original' && Boolean(links.original);
+const { title, summary, date, role, stack, tags, status, links, migrated } = project.data;
 ---
 
 <Base title={title} description={summary} image={`/og/projects/${project.id}.png`}>
@@ -35,8 +34,7 @@ const migrated = status === 'original' && Boolean(links.original);
       <ul>
         {links.code && <li><a href={links.code}>Code</a></li>}
         {links.demo && <li><a href={links.demo}>Live demo</a></li>}
-        {links.original && <li><a href={links.original}>Original post</a></li>}
-        {!links.code && !links.demo && !links.original && <li class="empty">No public links for this project.</li>}
+        {!links.code && !links.demo && <li class="empty">No public links for this project.</li>}
       </ul>
     </section>
   </article>
