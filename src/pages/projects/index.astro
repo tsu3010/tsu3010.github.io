@@ -12,7 +12,7 @@ const projects = await getProjects();
   {projects.length > 0 && <TagList tags={projectTags(projects)} />}
   {
     projects.length > 0 ? (
-      <ul class="cards">{projects.map((project) => <ProjectCard project={project} />)}</ul>
+      <ul class="cards">{projects.map((project) => <ProjectCard project={project} level={2} />)}</ul>
     ) : (
       <p class="empty">Case studies are on the way.</p>
     )

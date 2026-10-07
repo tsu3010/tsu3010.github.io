@@ -20,5 +20,5 @@ const all = projectTags(await getProjects());
   <h1>Projects tagged “{tagLabel(tag)}”</h1>
   <TagList tags={all} current={tag} />
   <p><a href="/projects/">Show all projects</a></p>
-  <ul class="cards">{projects.map((project) => <ProjectCard project={project} />)}</ul>
+  <ul class="cards">{projects.map((project) => <ProjectCard project={project} level={2} />)}</ul>
 </Base>

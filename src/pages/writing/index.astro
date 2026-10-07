@@ -12,7 +12,7 @@ const posts = await getPosts();
       <ul class="cards">
         {posts.map((post) => (
           <li class="card">
-            <h3><a href={`/writing/${post.id}/`}>{post.data.title}</a></h3>
+            <h2><a href={`/writing/${post.id}/`}>{post.data.title}</a></h2>
             <p class="meta"><time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time></p>
             <p>{post.data.description}</p>
           </li>
