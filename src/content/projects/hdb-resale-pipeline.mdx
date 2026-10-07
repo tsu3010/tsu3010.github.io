@@ -1,0 +1,44 @@
+---
+title: Singapore HDB Resale Market Pipeline
+summary: End-to-end ELT pipeline and dashboard on 228k HDB resale transactions.
+date: 2026-03
+role: Solo build
+stack:
+  - GCP
+  - Terraform
+  - BigQuery
+  - dbt
+  - Kestra
+  - Python
+  - Looker Studio
+tags:
+  - data-engineering
+  - analytics-engineering
+featured: true
+status: original
+links:
+  code: https://github.com/tsu3010/hdb-resale-pipeline
+  demo: https://lookerstudio.google.com/reporting/91a37d80-d099-4b13-b210-352725f59a3a
+draft: true
+---
+
+## Problem
+
+TODO: the question this answers and why it matters. Public HDB resale data is published as flat files; the aim is a
+repeatable pipeline that turns them into a trustworthy, queryable model and a dashboard.
+
+## Approach
+
+The pipeline loads 228,542 HDB resale records from data.gov.sg into Google Cloud Storage and BigQuery. 577 streets are
+geocoded through OneMap. dbt models the data, with 24 tests guarding it. Kestra orchestrates the runs, Terraform
+provisions the infrastructure, and Looker Studio serves the dashboard.
+
+TODO: architecture diagram and a short note on each design choice.
+
+## Result
+
+TODO: two or three market findings with numbers from the public data. The live dashboard is linked below.
+
+## Reflection
+
+TODO: what I would do differently now.

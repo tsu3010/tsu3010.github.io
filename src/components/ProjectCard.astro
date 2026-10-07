@@ -1,0 +1,20 @@
+---
+import { formatYearMonth, type Project } from '../lib/content';
+import TagList from './TagList.astro';
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const { title, summary, date, status, tags, stack } = project.data;
+---
+
+<li class="card">
+  <h3><a href={`/projects/${project.id}/`}>{title}</a></h3>
+  <p class="meta">
+    {formatYearMonth(date)} · {status} · {stack.join(', ')}
+  </p>
+  <p>{summary}</p>
+  <TagList tags={tags} />
+</li>

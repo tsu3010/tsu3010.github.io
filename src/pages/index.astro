@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { getFeatured } from '../lib/content';
+import { SITE } from '../site';
+
+const featured = await getFeatured();
+---
+
+<Base title={SITE.title} description={SITE.description} image="/og/home.png">
+  <h1>Data science and analytics case studies</h1>
+  <p class="lede">
+    I build end-to-end data products and write up what I learn: the problem, the approach, the result, and what I would
+    do differently now.
+  </p>
+  <p>
+    <a href="/projects/">All projects</a> · <a href="/resume/">Resume</a> · <a href={SITE.github}>GitHub</a>
+    {SITE.linkedin && <> · <a href={SITE.linkedin}>LinkedIn</a></>}
+  </p>
+
+  <h2>Featured</h2>
+  {
+    featured.length > 0 ? (
+      <ul class="cards">{featured.map((project) => <ProjectCard project={project} />)}</ul>
+    ) : (
+      <p class="empty">Case studies are on the way.</p>
+    )
+  }
+</Base>

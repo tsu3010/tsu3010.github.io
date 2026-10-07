@@ -1,0 +1,36 @@
+{
+  "site": "https://tsu3010.github.io",
+  "legacyHost": "https://sud3010ganesh.github.io",
+  "pendingFallback": "/projects/",
+  "redirects": [
+    { "from": "/", "to": "/", "live": true },
+    {
+      "from": "/2018-05-26-yelpreviewtextanalytics/",
+      "to": "/projects/yelp-sentiment/",
+      "live": false
+    },
+    {
+      "from": "/2018-05-27-timeseriesforecasting/",
+      "to": "/projects/classical-forecasting/",
+      "live": false
+    },
+    {
+      "from": "/2018-05-28-timeseriesforecastingpart2/",
+      "to": "/projects/classical-forecasting/",
+      "fragment": "part-2",
+      "live": false
+    },
+    {
+      "from": "/2018-05-29-boxofficerevenueprediction/",
+      "to": "/projects/box-office-prediction/",
+      "live": false
+    },
+    {
+      "from": "/2020-07-16-buildingreproduciblemlpipelines/",
+      "to": "/writing/reproducible-ml-pipelines/",
+      "live": false
+    },
+    { "from": "/about/", "to": "/about/", "live": true },
+    { "from": "/resume/", "to": "/resume/", "live": true }
+  ]
+}

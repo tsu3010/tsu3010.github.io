@@ -1,0 +1,20 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import TagList from '../../components/TagList.astro';
+import { getProjects, projectTags } from '../../lib/content';
+
+const projects = await getProjects();
+---
+
+<Base title="Projects" description="All case studies, filterable by tag." image="/og/projects.png">
+  <h1>Projects</h1>
+  {projects.length > 0 && <TagList tags={projectTags(projects)} />}
+  {
+    projects.length > 0 ? (
+      <ul class="cards">{projects.map((project) => <ProjectCard project={project} />)}</ul>
+    ) : (
+      <p class="empty">Case studies are on the way.</p>
+    )
+  }
+</Base>

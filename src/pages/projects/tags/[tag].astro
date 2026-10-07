@@ -1,0 +1,24 @@
+---
+import Base from '../../../layouts/Base.astro';
+import ProjectCard from '../../../components/ProjectCard.astro';
+import TagList from '../../../components/TagList.astro';
+import { getProjects, projectTags, tagLabel } from '../../../lib/content';
+
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  return projectTags(projects).map((tag) => ({
+    params: { tag },
+    props: { tag, projects: projects.filter((p) => p.data.tags.includes(tag as never)) },
+  }));
+}
+
+const { tag, projects } = Astro.props;
+const all = projectTags(await getProjects());
+---
+
+<Base title={`Projects tagged ${tagLabel(tag)}`} description={`Case studies tagged ${tagLabel(tag)}.`} image="/og/projects.png">
+  <h1>Projects tagged “{tagLabel(tag)}”</h1>
+  <TagList tags={all} current={tag} />
+  <p><a href="/projects/">Show all projects</a></p>
+  <ul class="cards">{projects.map((project) => <ProjectCard project={project} />)}</ul>
+</Base>

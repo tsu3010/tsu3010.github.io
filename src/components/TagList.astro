@@ -1,0 +1,29 @@
+---
+import { tagLabel } from '../lib/content';
+
+interface Props {
+  tags: readonly string[];
+  /** Highlights the matching tag (used on tag pages). */
+  current?: string;
+  /** Prefix a tag link; pass null to render plain labels. */
+  linked?: boolean;
+}
+
+const { tags, current, linked = true } = Astro.props;
+---
+
+<ul class="chips" aria-label="Tags">
+  {
+    tags.map((tag) => (
+      <li>
+        {linked ? (
+          <a class="chip" href={`/projects/tags/${tag}/`} aria-current={tag === current ? 'true' : undefined}>
+            {tagLabel(tag)}
+          </a>
+        ) : (
+          <span class="chip">{tagLabel(tag)}</span>
+        )}
+      </li>
+    ))
+  }
+</ul>
