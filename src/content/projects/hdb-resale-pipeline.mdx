@@ -81,6 +81,18 @@ Bukit Timah and Marine Parade, are left out of the rankings.
 
 ## Reflection
 
-TODO: confirm in your own words. Starting points from the project notes: the pipeline reloads everything on each run,
-so an incremental load that fetches only new months and geocodes only new streets would cut runtime and API calls;
-nearby MRT and school data was deferred; price forecasting was out of scope.
+The pipeline does what I set out to do, but a few things I would do differently now:
+
+- **Load incrementally.** Every run reloads the full dataset and replaces the raw table. A scheduled flow that fetches
+  only new months, removes duplicates against what is already in BigQuery, and geocodes only new streets would cut both
+  runtime and API calls.
+- **Schedule it.** The Kestra flow runs in Docker on my machine, so nothing refreshes the data on its own. Moving the
+  orchestration somewhere that runs on a schedule is the step that would make this a live pipeline.
+- **Test the data, not only the structure.** The 24 tests check for nulls, duplicates, accepted values and the grain of
+  the monthly table. They would not notice a partial API load. A row-count or freshness check would.
+- **Make the metrics reproducible.** The marts use approximate medians, and the affordability view covers a rolling 24
+  months counted from the day it was built, so its numbers move on every rerun. The findings above use averages, which
+  can be recombined exactly from the monthly mart. Next time I would pin the window and compute exact medians for any
+  headline figure.
+- **Add context to the prices.** Nearby MRT and school data was left out of this version, and so was any forecasting.
+  Both would help explain why some towns grew faster than others, which the current marts can show but not explain.
