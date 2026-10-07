@@ -40,7 +40,7 @@ I built it as my capstone for the Data Engineering Zoomcamp (2026).
 
 <HdbPipeline />
 
-- **Ingestion.** A Python script pulls the full resale dataset from the data.gov.sg API (228,542 records) and writes the
+- **Ingestion.** A Python script pulls the full resale dataset from the data.gov.sg API (228,542 records, January 2017 to April 2026) and writes the
   raw CSV to Cloud Storage and then BigQuery. The raw layer keeps every column as a string, so no casting decisions are
   baked in before the transform step.
 - **Location enrichment.** Each of the 577 unique street names is geocoded through the OneMap API and stored as a lookup
@@ -56,8 +56,28 @@ I built it as my capstone for the Data Engineering Zoomcamp (2026).
 
 ## Result
 
-TODO: two or three market findings with numbers, written from the queries in the plan. The live dashboard is linked
-below.
+All figures come from the project's own marts in BigQuery and cover January 2017 to April 2026. Prices are average
+resale prices; the dashboard's price chart plots medians. "Latest 12 months" means May 2025 to April 2026.
+
+**1. Resale prices rose about 51% from their 2019 low.** The average resale price across all flat types dipped from
+S$443,889 in 2017 to S$432,138 in 2019, then climbed to S$652,510 in 2025. The biggest single-year jump was 2021, at
++13.1%. For 4-room flats, the average went from S$437,120 in 2017 to S$672,112 in 2025, a rise of 53.8%.
+
+**2. Every town rose, but unevenly.** Comparing 4-room averages in 2017 with the latest 12 months, Sembawang rose the
+most, up 78.6% (S$348,198 to S$621,902), ahead of Woodlands (+62.7%) and Pasir Ris (+62.5%). The four cheapest towns in
+2017 (Woodlands, Sembawang, Choa Chu Kang and Yishun) all grew between 59.6% and 78.6%. The slowest growth, among towns
+with at least 50 sales in each period, was in Jurong East (+33.0%), Bukit Merah (+36.7%) and Bishan (+37.9%). Toa Payoh
+added the most in dollars, up S$345,771 to S$923,128.
+
+**3. Price per square metre differs about twofold across towns.** For 4-room flats in the latest 12 months, the cheapest
+towns were Choa Chu Kang (S$5,634 per sqm), Jurong West (S$5,732) and Woodlands (S$5,834). The most expensive were
+Central Area (S$11,469), Queenstown (S$10,991) and Toa Payoh (S$9,937). The dashboard's affordability index (median
+price divided by average floor area) puts the same ends of the market at the extremes: Jurong West, Choa Chu Kang and
+Jurong East lowest; Queenstown, Toa Payoh and Bukit Merah highest.
+
+Two caveats. Town averages shift with the mix of flats sold in a period, such as age, storey and remaining lease. And
+price per square metre is a cost measure, not an income-based affordability measure. Towns with very few sales, such as
+Bukit Timah and Marine Parade, are left out of the rankings.
 
 ## Reflection
 
